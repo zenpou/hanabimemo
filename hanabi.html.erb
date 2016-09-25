@@ -48,6 +48,7 @@ td {
     red: %w(#ff5e3a #ff5e3a),
     green: %w(#87fc70 #0bd318)
 } %>
+<% colors_name_hash = {yellow: "黄色", white: "白色", blue: "青色", red: "赤色", green: "緑色"} %>
 <% colors.each do | color |  %>
     .<%= color %> { 
         background: linear-gradient(<%= colors_hash[color][0] %>, <%= colors_hash[color][1] %>);
@@ -102,7 +103,7 @@ $(document).ready(ready);
                     <% number = idx + 1 %>
                     <tr>
                         <% card_numbers.each do | card_number | %>
-                            <td class="color <%= color %>" data-color="<%= color %>" data-card_number="<%= card_number %>"><%= color %></td>
+                            <td class="color <%= color %>" data-color="<%= color %>" data-card_number="<%= card_number %>"><%= colors_name_hash[color] %></td>
                             <td class="number <%= number %>" data-number="<%= number %>" data-card_number="<%= card_number %>"><%= number %></td>
                         <% end %>
                     </tr>
