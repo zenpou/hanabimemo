@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>花火メモ</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <% card_numbers = (1..4) %>
+        <style>
+tr {
+    height: 14vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+th, td {
+    border: 1px solid #ddd;
+    width: 12vw;
+    border-radius: 10px;
+    cursor: pointer;
+}
+td {
+    text-align: left;
+    padding-left: 1vw;
+}
+
+.unknown:after, .true:after, .false:after{ 
+    opacity: 0.6;
+    margin-right: 3vw;
+    float: right;
+}
+
+.unknown:after { 
+    content: "？";
+}
+
+.true:after {
+    content: "○";
+}
+.false:after {
+    content: "×";
+}
+
+<% colors = [:yellow, :white, :blue, :red, :green] %>
+<% colors_hash = {
+    yellow: %w(#ffdb4c #ffcd02),
+    white: %w(#dbddde #898c90),
+    blue: %w(#1ad6fd #1d62f0),
+    red: %w(#ff5e3a #ff5e3a),
+    green: %w(#87fc70 #0bd318)
+} %>
+<% colors.each do | color |  %>
+    .<%= color %> { 
+        background: linear-gradient(<%= colors_hash[color][0] %>, <%= colors_hash[color][1] %>);
+    }
+<% end %>
+.number { 
+    background: linear-gradient(#fff, #ddd);
+}
+        </style>
+
+        <script>
+function ready() {
+    $("td").addClass("unknown");
+    $("td").click(function() { 
+        var $this = $(this);
+        if ( $this.hasClass("unknown") ) { 
+            $this.removeClass("unknown");
+            $this.addClass("true");
+        }else if( $this.hasClass("true") ){
+            $this.removeClass("true");
+            $this.addClass("false");
+        }else if( $this.hasClass("false") ) {
+            $this.removeClass("false");
+            $this.addClass("unknown");
+        }
+    });
+    $("th").click(function(){ 
+        var $this = $(this);
+        var card_number = $this.data("card_number");
+        var target = $("td[data-card_number=" + card_number + "]");
+        console.log(target);
+        target.removeClass("true");
+        target.removeClass("false");
+        target.addClass("unknown");
+    });
+}
+
+$(document).ready(ready);
+        </script>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <% card_numbers.each do | card_number | %>
+                        <th colspan="2" data-card_number="<%= card_number %>"><%= card_number %></th>
+                    <% end %>
+                </tr>
+            </thead>
+            <tbody>
+                <% colors.each_with_index do | color, idx | %>
+                    <% number = idx + 1 %>
+                    <tr>
+                        <% card_numbers.each do | card_number | %>
+                            <td class="color <%= color %>" data-color="<%= color %>" data-card_number="<%= card_number %>"><%= color %></td>
+                            <td class="number <%= number %>" data-number="<%= number %>" data-card_number="<%= card_number %>"><%= number %></td>
+                        <% end %>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </body>
+</html>
