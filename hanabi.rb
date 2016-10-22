@@ -3,7 +3,7 @@ def make
   str = open("hanabi.html.erb").read
   erb = ERB.new(str)
   str =  erb.result
-  file = open("hanabi.html", "w")
+  file = open("index.html", "w")
   file.write str
   file.close
 end
